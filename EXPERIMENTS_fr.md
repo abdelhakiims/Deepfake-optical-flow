@@ -12,15 +12,15 @@ vidéo), sous Windows, avec Python 3.14 et PyTorch (CUDA 12.6).
 Chaque section technique se termine par un court paragraphe « En termes simples » qui explique l'idée
 sans vocabulaire technique.
 
-**Résumé.** Ce projet étudie si le mouvement d'un visage, mesuré par flot optique, aide à détecter les
-vidéos deepfake, et en particulier si le fait de retirer le mouvement rigide de la tête avant
+**Résumé.** Ce projet étudie comment le mouvement d'un visage, mesuré par flot optique, peut servir à
+détecter les vidéos deepfake, et en particulier si le fait de retirer le mouvement rigide de la tête avant
 l'analyse améliore la généralisation à des jeux de données non vus. La chaîne suit le visage principal
 de chaque vidéo, calcule le flot optique RAFT entre images consécutives, retire le mouvement de la tête
 (aucun, translation moyenne ou ajustement affine), puis combine flot et apparence dans un réseau à deux
 flux ResNet18 suivi d'un LSTM. Le protocole sépare strictement les identités entre entraînement et test.
 Entraîné sur DFD, le modèle atteint une AUC vidéo de 0,972 ± 0,017 en validation croisée à 7 plis et
-0,781 ± 0,032 sur Celeb-DF non vu. Entraîné sur FaceForensics++, six versions ont été comparées : la
-suppression de la seule translation moyenne généralise le mieux (AUC 0,870 sur DFD et 0,739 sur Celeb-DF,
+0,781 ± 0,032 sur Celeb-DF non vu. Entraîné sur FaceForensics++, six versions ont été comparées : parmi les trois
+réglages du mouvement de la tête, la suppression de la seule translation moyenne généralise le mieux (AUC 0,870 sur DFD et 0,739 sur Celeb-DF,
 contre 0,820 et 0,719 pour la suppression affine), et le flot seul s'ajuste presque parfaitement à
 FaceForensics++ mais généralise le moins bien. Ces résultats restent en dessous des meilleures méthodes
 publiées et reposent sur une seule graine par version ; les limites sont détaillées au §14.

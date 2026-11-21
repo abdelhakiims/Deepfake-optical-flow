@@ -12,15 +12,15 @@ with CUDA 12.6.
 Each technical section ends with a short "In simple words" paragraph that explains the idea without
 any technical vocabulary.
 
-**Abstract.** This project studies whether the motion of a face, measured by optical flow, helps to
+**Abstract.** This project studies how the motion of a face, measured by optical flow, can be used to
 detect deepfake videos, and in particular whether removing the rigid motion of the head before the
 analysis improves generalisation to unseen datasets. The pipeline tracks the main face of each video,
 computes RAFT optical flow between consecutive frames, removes the head's motion (none, mean
 translation or affine fit), and combines flow and appearance in a two-stream ResNet18 network followed
 by an LSTM. The protocol keeps identities strictly apart between training and test. Trained on DFD, the
 model reaches a video AUC of 0.972 ± 0.017 in 7-fold cross-validation and 0.781 ± 0.032 on unseen
-Celeb-DF. Trained on FaceForensics++, six versions were compared: removing only the mean translation
-generalises best (AUC 0.870 on DFD and 0.739 on Celeb-DF, against 0.820 and 0.719 for the affine
+Celeb-DF. Trained on FaceForensics++, six versions were compared: among the three head-motion settings, removing only the
+mean translation generalises best (AUC 0.870 on DFD and 0.739 on Celeb-DF, against 0.820 and 0.719 for the affine
 removal), and flow alone fits FaceForensics++ almost perfectly but generalises worst. These results are
 below the best published methods and rest on one seed per version; the limitations are detailed in §14.
 

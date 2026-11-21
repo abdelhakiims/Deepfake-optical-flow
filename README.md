@@ -1,11 +1,12 @@
 # Deepfake video detection with motion-compensated optical flow
 
-A research project on one question: **does the motion of a face reveal deepfakes, and how much of the
-head's own motion should be removed before looking for it?** A face swap is like a mask pasted on a
+A research project on one question: **how can optical flow, the motion between video frames, be used
+to detect deepfakes?** A face swap is like a mask pasted on a
 real head. When the head moves, the mask can slip or flicker very slightly. Those slips are tiny,
 however, compared with the large motion of the head itself. This project measures that motion with
-optical flow (RAFT), removes the rigid motion of the head in three different ways, and tests which
-version generalises best to datasets never seen in training.
+optical flow (RAFT), combines it with the face image, and studies in particular how much of the
+head's rigid motion should be removed first (three settings), testing each on datasets never seen in
+training.
 
 **Full documentation:** every design decision, experiment, result, problem and limitation is in
 **[EXPERIMENTS.md](EXPERIMENTS.md)** (French: [EXPERIMENTS_fr.md](EXPERIMENTS_fr.md)). The same document is
@@ -20,11 +21,12 @@ available as PDF and Word:
 
 ## Main findings
 
-1. **Removing only the head's translation generalises best.** Trained on FaceForensics++ and tested
+1. **Among the three head-motion settings, removing only the translation generalises best.** Trained on FaceForensics++ and tested
    on unseen datasets, subtracting the mean displacement of each flow map gives a video AUC of
    **0.870 on DFD** and **0.739 on Celeb-DF**. A full affine fit gives 0.820 and 0.719, and no removal
-   0.824 and 0.687. On DFD, the 95% intervals of the mean and affine versions do not overlap. This is
-   the opposite of what was expected, and the main result of the ablations.
+   0.824 and 0.687. On DFD, the 95% intervals of the mean and affine versions do not overlap; on Celeb-DF
+   the differences are within the intervals. This is the opposite of what was expected, and the main
+   result of the ablations.
 2. **Optical flow alone learns the training dataset, not deepfakes in general.** It scores 0.980 on
    FaceForensics++, including 1.000 on FaceSwap fakes, but only 0.681 on DFD and 0.596 on Celeb-DF.
 3. **Scores on the training dataset do not predict generalisation.** The versions that fit
